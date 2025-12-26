@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ezgi, Güzelim</title>
+
+<style>
+body{
+ margin:0;
+ font-family:'Georgia',serif;
+ background:linear-gradient(135deg,#ff5f9e,#ffb347);
+ color:white;
+ text-align:center;
+ transition:.6s;
+}
+body.dark{
+ background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+}
+section{padding:80px 20px;max-width:900px;margin:auto}
+h1{font-size:3em}
+button,input{
+ border:none;
+ padding:14px 28px;
+ border-radius:30px;
+ font-size:1em;
+ cursor:pointer;
+ margin:6px;
+}
+button{background:white;color:#ff4b8b}
+.card{
+ background:rgba(255,255,255,.15);
+ padding:30px;
+ border-radius:30px;
+ margin:30px 0;
+}
+.fade{
+ animation:fade 1.2s;
+}
+@keyframes fade{
+ from{opacity:0;transform:translateY(20px)}
+ to{opacity:1}
+}
+#lock{
+ position:fixed;inset:0;
+ display:flex;
+ justify-content:center;
+ align-items:center;
+ background:linear-gradient(135deg,#ff5f9e,#ffb347);
+ z-index:10;
+}
+#final{
+ display:none;
+ position:fixed;
+ inset:0;
+ background:rgba(0,0,0,.95);
+ color:white;
+ z-index:999;
+ justify-content:center;
+ align-items:center;
+ padding:40px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 GİRİŞ -->
+<div id="lock">
+ <div class="card">
+  <h2>Ezgi’ye Özel</h2>
+  <input type="password" id="pass" placeholder="Şifre">
+  <br><br>
+  <button onclick="giris()">Giriş</button>
+  <p id="uyari"></p>
+ </div>
+</div>
+
+<section id="site" style="display:none">
+
+<h1>Ezgi, Güzelim</h1>
+<p>Bu sayfa senin için yazıldı… okunmak için değil, hissedilmek için.</p>
+
+<!-- 🎵 MÜZİK -->
+<div class="card">
+<h2>🎵 Ruh Halin İçin</h2>
+<button onclick="muzikCal()">Müziği Aç / Değiştir</button>
+<audio id="muzik" controls></audio>
+</div>
+
+<!-- 📚 KİTAPLARDAN -->
+<div class="card fade">
+<h2>📚 Kitaplardan Aşk</h2>
+<p id="kitapSoz"></p>
+<button onclick="yeniSoz()">Yeni Söz</button>
+</div>
+
+<!-- 🎮 AŞK OYUNU -->
+<div class="card">
+<h2>🎮 Küçük Bir Oyun</h2>
+<p>“Sence aşk nedir?”</p>
+<button onclick="oyun('kalp')">Kalp</button>
+<button onclick="oyun('alışkanlık')">Alışkanlık</button>
+<button onclick="oyun('cesaret')">Cesaret</button>
+<p id="oyunSonuc"></p>
+</div>
+
+<!-- 🌙 -->
+<button onclick="gece()">Gece Modu</button>
+
+</section>
+
+<!-- 💔 FINAL -->
+<div id="final">
+ <div>
+  <h1>Ezgi…</h1>
+  <p id="finalYazi" style="font-size:1.4em;line-height:2"></p>
+ </div>
+</div>
+
+<script>
+/* GİRİŞ */
+function giris(){
+ if(pass.value==="2004"){
+  lock.style.display="none";
+  site.style.display="block";
+ }else{
+  uyari.innerText="Yanlış… ama denemen bile güzel.";
+ }
+}
+
+/* MÜZİK */
+const sarkilar=[
+ "duman-bal.mp3",
+ "dilerim-ki.mp3",
+ "gozlerin.mp3"
+];
+let sira=0;
+function muzikCal(){
+ muzik.src=sarkilar[sira];
+ muzik.play();
+ sira=(sira+1)%sarkilar.length;
+}
+
+/* KİTAP SÖZLERİ */
+const kitaplar=[
+ "“Seni sevmek, kendi hayatımdan vazgeçmekti.” – Sabahattin Ali",
+ "“İnsan sevdi mi, bir daha eskisi gibi olamaz.” – Dostoyevski",
+ "“Kalbim seninle atmayı öğrendi.” – Stefan Zweig",
+ "“Aşk, bir insanın bir insana sonsuz sorumluluk duymasıdır.” – Tolstoy"
+];
+function yeniSoz(){
+ kitapSoz.innerText=
+ kitaplar[Math.floor(Math.random()*kitaplar.length)];
+}
+yeniSoz();
+
+/* OYUN */
+let dogru=0;
+function oyun(secim){
+ if(secim==="cesaret"){
+  oyunSonuc.innerText="Doğru… aşk cesaret ister.";
+  dogru++;
+ }else{
+  oyunSonuc.innerText="Belki… ama eksik.";
+ }
+ if(dogru===1){
+  setTimeout(finalAc,2000);
+ }
+}
+
+/* FINAL */
+function finalAc(){
+ final.style.display="flex";
+ const yazi=[
+  "Bu siteyi gezdin.",
+  "Müzikleri dinledin.",
+  "Sözleri okudun.",
+  "",
+  "Ama asıl mesaj burada:",
+  "",
+  "Ben seni etkilemek için değil,",
+  "seni ciddiye aldığım için buradayım.",
+  "",
+  "Ezgi…",
+  "gerçek hayatta da",
+  "kalbim aynı yerde."
+ ];
+ let i=0;
+ function yaz(){
+  if(i<yazi.length){
+   finalYazi.innerHTML+=yazi[i]+"<br>";
+   i++;
+   setTimeout(yaz,1200);
+  }
+ }
+ yaz();
+}
+
+/* GECE */
+function gece(){
+ document.body.classList.toggle("dark");
+}
+</script>
+
+</body>
+</html>
